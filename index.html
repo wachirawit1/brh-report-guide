@@ -1,0 +1,2004 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>คู่มือการใช้งาน ระบบขอข้อมูลและรายงาน — โรงพยาบาลบุรีรัมย์</title>
+  <meta name="description" content="คู่มือแนะนำวิธีการเข้าใช้งานและขั้นตอนการขอข้อมูลและรายงาน ศูนย์คอมพิวเตอร์ โรงพยาบาลบุรีรัมย์" />
+
+  <!-- Google Fonts: Sarabun & JetBrains Mono (Hospital Standard) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;600&family=Sarabun:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      /* Hospital Clinical Palette (Sourced from brh-chat DESIGN.md) */
+      --color-canvas: #f8fafc;
+      --color-surface: #ffffff;
+      --color-surface-subtle: #f1f5f9;
+      --color-surface-alt: #e2e8f0;
+      
+      --ink-900: #0f172a;
+      --ink-800: #1e293b;
+      --ink-700: #334155;
+      --ink-600: #475569;
+      --ink-500: #64748b;
+      --ink-400: #94a3b8;
+      --ink-200: #e2e8f0;
+      --ink-100: #f1f5f9;
+
+      /* Brand Signals */
+      --primary-base: #0284c7;
+      --primary-dark: #0369a1;
+      --primary-deep: #0c4a6e;
+      --primary-subtle: #f0f9ff;
+      --primary-border: #bae6fd;
+      
+      --accent-base: #0d9488;
+      --accent-subtle: #f0fdfa;
+      --accent-border: #99f6e4;
+      
+      --danger-base: #dc2626;
+      --danger-subtle: #fef2f2;
+      --danger-border: #fecaca;
+      
+      --warning-base: #d97706;
+      --warning-subtle: #fffbeb;
+      --warning-border: #fde68a;
+
+      --success-base: #16a34a;
+      --success-subtle: #f0fdf4;
+      --success-border: #bbf7d0;
+
+      /* Spatial Rhythm Scale */
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --space-12: 48px;
+      --space-16: 64px;
+      --space-20: 80px;
+
+      /* Radii */
+      --radius-sm: 6px;
+      --radius: 10px;
+      --radius-lg: 14px;
+      --radius-full: 9999px;
+
+      /* Disciplined Multi-Layer Neutral Shadows */
+      --shadow-hairline: 0 0 0 1px rgba(15, 23, 42, 0.08);
+      --shadow-sm: 0 1px 2px 0 rgba(15, 23, 42, 0.05);
+      --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+      --shadow-lg: 0 12px 24px -4px rgba(15, 23, 42, 0.08), 0 4px 8px -2px rgba(15, 23, 42, 0.04);
+      --shadow-overlay: 0 24px 48px -12px rgba(15, 23, 42, 0.25);
+    }
+
+    /* CSS Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      font-size: 16px;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: 'Sarabun', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background-color: var(--color-canvas);
+      color: var(--ink-800);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* Themed Browser Surfaces */
+    ::selection {
+      background-color: #bae6fd;
+      color: var(--primary-deep);
+    }
+
+    :focus-visible {
+      outline: 2px solid var(--primary-base);
+      outline-offset: 2px;
+    }
+
+    /* Tabular Numerals */
+    .num-tabular {
+      font-family: 'JetBrains Mono', monospace;
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Container */
+    .container {
+      width: 100%;
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 var(--space-6);
+    }
+
+    /* Network Notice Banner */
+    .network-banner {
+      background-color: var(--primary-deep);
+      color: #e0f2fe;
+      padding: var(--space-2) var(--space-4);
+      font-size: 0.875rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .network-banner-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .network-banner svg {
+      flex-shrink: 0;
+      color: #38bdf8;
+    }
+
+    /* Navigation Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      background: rgba(255, 255, 255, 0.94);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--ink-200);
+    }
+
+    .nav-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 68px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .brand-crest {
+      width: 40px;
+      height: 40px;
+      background-color: var(--primary-base);
+      color: #ffffff;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .brand-meta h1 {
+      font-size: 1.125rem;
+      font-weight: 700;
+      color: var(--ink-900);
+      line-height: 1.2;
+    }
+
+    .brand-meta p {
+      font-size: 0.8125rem;
+      color: var(--ink-500);
+      font-weight: 400;
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      list-style: none;
+    }
+
+    .nav-menu a {
+      text-decoration: none;
+      color: var(--ink-700);
+      font-weight: 500;
+      font-size: 0.9375rem;
+      transition: color 0.15s ease;
+    }
+
+    .nav-menu a:hover {
+      color: var(--primary-base);
+    }
+
+    .btn-header-access {
+      background-color: var(--primary-base);
+      color: #ffffff !important;
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-sm);
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-2);
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.15s ease;
+    }
+
+    .btn-header-access:hover {
+      background-color: var(--primary-dark);
+    }
+
+    /* Hero Section */
+    .hero-section {
+      padding: 64px 0 48px;
+      padding: var(--space-16) 0 var(--space-12);
+      background-color: var(--color-surface);
+      border-bottom: 1px solid var(--ink-200);
+    }
+
+    .hero-lead-group {
+      max-width: 820px;
+    }
+
+    .status-indicator-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 12px;
+      background-color: var(--primary-subtle);
+      border: 1px solid var(--primary-border);
+      border-radius: var(--radius-full);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--primary-dark);
+      margin-bottom: 16px;
+    }
+
+    .status-indicator-dot {
+      width: 8px;
+      height: 8px;
+      background-color: var(--success-base);
+      border-radius: 50%;
+    }
+
+    .hero-title {
+      font-size: 2.75rem;
+      font-weight: 700;
+      color: var(--ink-900);
+      line-height: 1.22;
+      letter-spacing: -0.015em;
+      margin-bottom: 16px;
+    }
+
+    .hero-description {
+      font-size: 1.125rem;
+      color: var(--ink-600);
+      line-height: 1.7;
+      margin-bottom: 32px;
+      max-width: 760px;
+    }
+
+    .hero-action-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 48px;
+    }
+
+    .btn-primary-action {
+      background-color: var(--primary-base);
+      color: #ffffff;
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.15s ease, transform 0.1s ease;
+      min-height: 48px;
+    }
+
+    .btn-primary-action:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-outline-action {
+      background-color: var(--color-surface);
+      color: var(--ink-800);
+      text-decoration: none;
+      padding: 12px 24px;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      border: 1px solid var(--ink-200);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: var(--shadow-sm);
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+      min-height: 48px;
+    }
+
+    .btn-outline-action:hover {
+      background-color: var(--color-surface-subtle);
+      border-color: var(--ink-400);
+    }
+
+    /* Hero Pillars Grid */
+    .hero-pillars-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+    }
+
+    .pillar-card {
+      background-color: var(--color-canvas);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius);
+      padding: 16px 24px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+    }
+
+    .pillar-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      background-color: var(--primary-subtle);
+      color: var(--primary-dark);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid var(--primary-border);
+    }
+
+    .pillar-icon-box.accent-theme {
+      background-color: var(--accent-subtle);
+      color: var(--accent-base);
+      border-color: var(--accent-border);
+    }
+
+    .pillar-text h2 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--ink-900);
+      margin-bottom: var(--space-1);
+    }
+
+    .pillar-text p {
+      font-size: 0.875rem;
+      color: var(--ink-600);
+      line-height: 1.5;
+    }
+
+    /* Section Layout Standard */
+    section {
+      padding: var(--space-16) 0;
+    }
+
+    .section-intro {
+      max-width: 680px;
+      margin-bottom: var(--space-8);
+    }
+
+    .section-heading {
+      font-size: 1.875rem;
+      font-weight: 700;
+      color: var(--ink-900);
+      line-height: 1.3;
+      margin-bottom: var(--space-2);
+      letter-spacing: -0.01em;
+    }
+
+    .section-summary {
+      font-size: 1rem;
+      color: var(--ink-600);
+      line-height: 1.6;
+    }
+
+    /* Channels Topology */
+    .channels-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: var(--space-6);
+      align-items: stretch;
+    }
+
+    .channel-box {
+      background-color: var(--color-surface);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-lg);
+      padding: var(--space-8);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .channel-box.primary-route {
+      border: 2px solid var(--primary-base);
+      background: linear-gradient(180deg, #ffffff 0%, var(--primary-subtle) 100%);
+      box-shadow: var(--shadow-md);
+    }
+
+    .channel-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: var(--space-3);
+    }
+
+    .channel-num-chip {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 28px;
+      height: 28px;
+      border-radius: var(--radius-sm);
+      background-color: var(--primary-base);
+      color: #ffffff;
+      font-size: 0.875rem;
+      font-weight: 700;
+    }
+
+    .channel-badge-recommended {
+      background-color: var(--primary-base);
+      color: #ffffff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 2px var(--space-3);
+      border-radius: var(--radius-full);
+      letter-spacing: 0.02em;
+    }
+
+    .channel-title {
+      font-size: 1.375rem;
+      font-weight: 700;
+      color: var(--ink-900);
+      margin-bottom: var(--space-2);
+    }
+
+    .channel-intro-text {
+      font-size: 0.9375rem;
+      color: var(--ink-600);
+      line-height: 1.6;
+      margin-bottom: var(--space-4);
+    }
+
+    /* Technical URL Row */
+    .technical-address-bar {
+      background-color: var(--ink-100);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-sm);
+      padding: var(--space-2) var(--space-3);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .technical-address-bar code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: var(--ink-900);
+      word-break: break-all;
+    }
+
+    .btn-copy-address {
+      background-color: var(--color-surface);
+      border: 1px solid var(--ink-400);
+      padding: var(--space-1) var(--space-3);
+      border-radius: var(--radius-sm);
+      font-size: 0.8125rem;
+      font-weight: 600;
+      color: var(--ink-800);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-1);
+      transition: background-color 0.15s, border-color 0.15s;
+      flex-shrink: 0;
+      min-height: 34px;
+    }
+
+    .btn-copy-address:hover {
+      background-color: var(--color-surface-subtle);
+      border-color: var(--ink-600);
+    }
+
+    .checklist-rows {
+      list-style: none;
+      margin-bottom: var(--space-6);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .checklist-rows li {
+      font-size: 0.9375rem;
+      color: var(--ink-700);
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-2);
+      line-height: 1.5;
+    }
+
+    .checklist-rows li svg {
+      flex-shrink: 0;
+      margin-top: 3px;
+      color: var(--primary-base);
+    }
+
+    .channel-box-footer {
+      margin-top: auto;
+      padding-top: var(--space-4);
+    }
+
+    .btn-route-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: var(--space-2);
+      text-decoration: none;
+      background-color: var(--primary-base);
+      color: #ffffff;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 0.9375rem;
+      transition: background-color 0.15s;
+      min-height: 44px;
+    }
+
+    .btn-route-action:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn-route-secondary {
+      background-color: var(--color-surface);
+      color: var(--ink-800);
+      border: 1px solid var(--ink-200);
+    }
+
+    .btn-route-secondary:hover {
+      background-color: var(--color-surface-subtle);
+    }
+
+    /* Screen Inspection Trigger */
+    .screen-inspection-card {
+      margin-bottom: var(--space-4);
+      border-radius: var(--radius);
+      border: 1px solid var(--ink-200);
+      overflow: hidden;
+      background-color: var(--ink-100);
+      position: relative;
+      cursor: pointer;
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .screen-inspection-card:hover {
+      border-color: var(--primary-base);
+      box-shadow: var(--shadow-md);
+    }
+
+    .screen-inspection-card img {
+      width: 100%;
+      height: 170px;
+      object-fit: cover;
+      object-position: top left;
+      display: block;
+    }
+
+    .screen-zoom-tag {
+      position: absolute;
+      bottom: var(--space-2);
+      right: var(--space-2);
+      background-color: rgba(15, 23, 42, 0.86);
+      color: #ffffff;
+      padding: 3px var(--space-2);
+      border-radius: var(--radius-sm);
+      font-size: 0.75rem;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* Section: Login Protocol */
+    .login-section-surface {
+      background-color: var(--color-surface);
+      border-top: 1px solid var(--ink-200);
+      border-bottom: 1px solid var(--ink-200);
+    }
+
+    .login-split-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-12);
+      align-items: center;
+    }
+
+    .login-spec-card {
+      background-color: var(--color-canvas);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius);
+      padding: var(--space-4) var(--space-6);
+      margin: var(--space-6) 0;
+    }
+
+    .login-spec-header {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.9375rem;
+      font-weight: 700;
+      color: var(--ink-900);
+      margin-bottom: var(--space-3);
+    }
+
+    .login-spec-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .login-spec-list li {
+      font-size: 0.9375rem;
+      color: var(--ink-700);
+    }
+
+    .login-spec-list strong {
+      color: var(--ink-900);
+    }
+
+    .login-frame-mockup {
+      background-color: var(--ink-900);
+      border-radius: var(--radius-lg);
+      padding: var(--space-3);
+      box-shadow: var(--shadow-lg);
+      cursor: pointer;
+    }
+
+    .login-frame-bar {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      padding-bottom: var(--space-2);
+    }
+
+    .frame-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background-color: #475569;
+    }
+    .frame-dot.red { background-color: #ef4444; }
+    .frame-dot.yellow { background-color: #f59e0b; }
+    .frame-dot.green { background-color: #10b981; }
+
+    .frame-url-label {
+      margin-left: var(--space-2);
+      background-color: #1e293b;
+      color: #94a3b8;
+      font-size: 0.75rem;
+      padding: 2px var(--space-3);
+      border-radius: 4px;
+      font-family: 'JetBrains Mono', monospace;
+      flex-grow: 1;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .login-frame-mockup img {
+      width: 100%;
+      display: block;
+      border-radius: var(--radius-sm);
+      border: 1px solid #334155;
+    }
+
+    /* Section: Hospital Standard Operating Procedure (6 Steps) */
+    .sop-ledger-flow {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+      max-width: 880px;
+      margin: 0 auto;
+    }
+
+    .sop-node {
+      background-color: var(--color-surface);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius);
+      padding: var(--space-6);
+      box-shadow: var(--shadow-sm);
+      display: flex;
+      gap: var(--space-6);
+      transition: border-color 0.15s, box-shadow 0.15s;
+    }
+
+    .sop-node:hover {
+      border-color: var(--ink-400);
+      box-shadow: var(--shadow-md);
+    }
+
+    .sop-index {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-sm);
+      background-color: var(--primary-base);
+      color: #ffffff;
+      font-weight: 700;
+      font-size: 1.25rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .sop-node.urgent-action {
+      border: 1px solid var(--danger-border);
+      background-color: #ffffff;
+    }
+
+    .sop-node.urgent-action .sop-index {
+      background-color: var(--danger-base);
+    }
+
+    .sop-node.pdpa-governance {
+      border: 1px solid var(--accent-border);
+      background-color: #ffffff;
+    }
+
+    .sop-node.pdpa-governance .sop-index {
+      background-color: var(--accent-base);
+    }
+
+    .sop-content {
+      flex-grow: 1;
+    }
+
+    .sop-header-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-2);
+      margin-bottom: var(--space-2);
+    }
+
+    .sop-title {
+      font-size: 1.1875rem;
+      font-weight: 700;
+      color: var(--ink-900);
+    }
+
+    .sop-pill-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-sm);
+      background-color: var(--ink-100);
+      color: var(--ink-600);
+    }
+
+    .sop-node.urgent-action .sop-pill-label {
+      background-color: var(--danger-subtle);
+      color: var(--danger-base);
+      font-weight: 700;
+    }
+
+    .sop-node.pdpa-governance .sop-pill-label {
+      background-color: var(--accent-subtle);
+      color: var(--accent-base);
+      font-weight: 700;
+    }
+
+    .sop-body-text {
+      font-size: 0.9375rem;
+      color: var(--ink-600);
+      line-height: 1.6;
+      margin-bottom: var(--space-3);
+    }
+
+    .sop-callout {
+      background-color: var(--color-canvas);
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius-sm);
+      padding: var(--space-3) var(--space-4);
+      font-size: 0.875rem;
+      color: var(--ink-700);
+    }
+
+    .sop-node.urgent-action .sop-callout {
+      background-color: var(--danger-subtle);
+      border-color: var(--danger-border);
+      color: #991b1b;
+    }
+
+    /* Showcase: Contextual Chat Feature */
+    .showcase-chat-surface {
+      background-color: var(--ink-900);
+      color: #ffffff;
+      border-top: 1px solid var(--ink-800);
+      border-bottom: 1px solid var(--ink-800);
+    }
+
+    .showcase-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: var(--space-12);
+      align-items: center;
+    }
+
+    .showcase-header h2 {
+      font-size: 2.125rem;
+      font-weight: 700;
+      color: #ffffff;
+      line-height: 1.3;
+      margin-bottom: var(--space-3);
+    }
+
+    .showcase-summary {
+      font-size: 1.0625rem;
+      color: var(--ink-400);
+      line-height: 1.7;
+      margin-bottom: var(--space-6);
+    }
+
+    .feature-points-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-4);
+    }
+
+    .feature-point-item {
+      display: flex;
+      align-items: flex-start;
+      gap: var(--space-3);
+    }
+
+    .feature-point-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      background-color: #1e293b;
+      color: #38bdf8;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 1px solid #334155;
+    }
+
+    .feature-point-text h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      color: #ffffff;
+      margin-bottom: 2px;
+    }
+
+    .feature-point-text p {
+      font-size: 0.875rem;
+      color: var(--ink-400);
+      line-height: 1.5;
+    }
+
+    /* High-Fidelity Mock Chat */
+    .chat-terminal-card {
+      background-color: #1e293b;
+      border: 1px solid #334155;
+      border-radius: var(--radius-lg);
+      padding: var(--space-4);
+      box-shadow: var(--shadow-overlay);
+    }
+
+    .chat-terminal-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid #334155;
+      padding-bottom: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .chat-terminal-identity {
+      display: flex;
+      align-items: center;
+      gap: var(--space-3);
+    }
+
+    .terminal-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--primary-base);
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.8125rem;
+    }
+
+    .terminal-identity-meta h4 {
+      font-size: 0.9375rem;
+      font-weight: 600;
+      color: #ffffff;
+    }
+
+    .terminal-status-online {
+      font-size: 0.75rem;
+      color: #34d399;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .terminal-status-online::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      background-color: #34d399;
+      border-radius: 50%;
+    }
+
+    .terminal-ticket-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      background-color: #0f172a;
+      color: #94a3b8;
+      padding: 2px var(--space-2);
+      border-radius: var(--radius-sm);
+      border: 1px solid #334155;
+    }
+
+    .terminal-dialog-flow {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .dialog-bubble {
+      max-width: 86%;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .dialog-bubble.incoming {
+      background-color: #334155;
+      color: #f8fafc;
+      align-self: flex-start;
+      border-bottom-left-radius: 2px;
+    }
+
+    .dialog-bubble.outgoing {
+      background-color: var(--primary-base);
+      color: #ffffff;
+      align-self: flex-end;
+      border-bottom-right-radius: 2px;
+    }
+
+    .bubble-timestamp {
+      display: block;
+      font-size: 0.6875rem;
+      opacity: 0.7;
+      margin-top: var(--space-1);
+      text-align: right;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .bubble-attachment-card {
+      margin-top: var(--space-2);
+      background: rgba(15, 23, 42, 0.4);
+      padding: var(--space-2) var(--space-3);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      font-size: 0.8125rem;
+      border: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .terminal-composer-bar {
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      background-color: #0f172a;
+      border: 1px solid #334155;
+      border-radius: var(--radius-sm);
+      padding: var(--space-2) var(--space-3);
+      color: #64748b;
+      font-size: 0.8125rem;
+    }
+
+    /* FAQ Topology (CSS Grid Animation - Zero Layout Thrashing) */
+    .faq-wrapper {
+      max-width: 820px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+    }
+
+    .faq-disclosure-item {
+      border: 1px solid var(--ink-200);
+      border-radius: var(--radius);
+      background-color: var(--color-surface);
+      overflow: hidden;
+      transition: border-color 0.15s ease;
+    }
+
+    .faq-disclosure-item:hover {
+      border-color: var(--ink-400);
+    }
+
+    .faq-trigger-btn {
+      width: 100%;
+      text-align: left;
+      padding: var(--space-4) var(--space-6);
+      background: none;
+      border: none;
+      font-family: inherit;
+      font-size: 1.0625rem;
+      font-weight: 600;
+      color: var(--ink-900);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+      min-height: 52px;
+    }
+
+    .faq-trigger-btn svg {
+      transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      color: var(--ink-400);
+      flex-shrink: 0;
+    }
+
+    .faq-disclosure-item[aria-expanded="true"] .faq-trigger-btn svg {
+      transform: rotate(180deg);
+      color: var(--primary-base);
+    }
+
+    /* Smooth Grid-Template-Rows transition (No max-height layout thrashing) */
+    .faq-panel {
+      display: grid;
+      grid-template-rows: 0fr;
+      transition: grid-template-rows 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      background-color: var(--color-canvas);
+    }
+
+    .faq-disclosure-item[aria-expanded="true"] .faq-panel {
+      grid-template-rows: 1fr;
+      border-top: 1px solid var(--ink-200);
+    }
+
+    .faq-panel-inner {
+      overflow: hidden;
+    }
+
+    .faq-panel-content {
+      padding: var(--space-4) var(--space-6);
+      font-size: 0.9375rem;
+      color: var(--ink-700);
+      line-height: 1.7;
+    }
+
+    /* Footer */
+    .site-colophon {
+      background-color: var(--ink-900);
+      color: var(--ink-400);
+      padding: var(--space-12) 0 var(--space-8);
+      border-top: 1px solid #1e293b;
+    }
+
+    .colophon-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: var(--space-8);
+      margin-bottom: var(--space-8);
+    }
+
+    .colophon-identity h3 {
+      color: #ffffff;
+      font-size: 1.125rem;
+      margin-bottom: var(--space-2);
+    }
+
+    .colophon-identity p {
+      font-size: 0.875rem;
+      line-height: 1.6;
+      max-width: 440px;
+    }
+
+    .colophon-nav-group h4 {
+      color: #ffffff;
+      font-size: 0.9375rem;
+      margin-bottom: var(--space-3);
+      font-weight: 600;
+    }
+
+    .colophon-nav-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .colophon-nav-links a {
+      color: var(--ink-400);
+      text-decoration: none;
+      font-size: 0.875rem;
+      transition: color 0.15s;
+    }
+
+    .colophon-nav-links a:hover {
+      color: #ffffff;
+    }
+
+    .colophon-copyright {
+      border-top: 1px solid #1e293b;
+      padding-top: var(--space-6);
+      text-align: center;
+      font-size: 0.8125rem;
+      color: var(--ink-500);
+    }
+
+    /* Lightbox Modal */
+    .dialog-lightbox {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(15, 23, 42, 0.92);
+      backdrop-filter: blur(6px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      opacity: 0;
+      transition: opacity 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .dialog-lightbox.is-open {
+      display: flex;
+      opacity: 1;
+    }
+
+    .lightbox-enclosure {
+      position: relative;
+      max-width: 90vw;
+      max-height: 88vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-enclosure img {
+      max-width: 100%;
+      max-height: 80vh;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-overlay);
+      object-fit: contain;
+    }
+
+    .lightbox-caption-text {
+      margin-top: var(--space-3);
+      color: #e2e8f0;
+      font-size: 0.9375rem;
+      text-align: center;
+      font-weight: 500;
+    }
+
+    .btn-dismiss-lightbox {
+      position: absolute;
+      top: -44px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.15);
+      border: none;
+      color: #ffffff;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background-color 0.15s;
+    }
+
+    .btn-dismiss-lightbox:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Toast Notification */
+    .toast-feedback-host {
+      position: fixed;
+      bottom: var(--space-6);
+      right: var(--space-6);
+      z-index: 90;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      pointer-events: none;
+    }
+
+    .toast-pill {
+      background-color: var(--ink-900);
+      color: #ffffff;
+      padding: var(--space-3) var(--space-4);
+      border-radius: var(--radius-sm);
+      font-size: 0.875rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-lg);
+      border: 1px solid #334155;
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+      pointer-events: auto;
+      animation: toastRise 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes toastRise {
+      from { transform: translateY(16px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Responsive Adaptation */
+    @media (max-width: 900px) {
+      .hero-title { font-size: 2.125rem; }
+      .channels-grid { grid-template-columns: 1fr; }
+      .login-split-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+      .showcase-grid { grid-template-columns: 1fr; gap: var(--space-8); }
+      .colophon-grid { grid-template-columns: 1fr; gap: var(--space-6); }
+      .nav-menu { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .hero-title { font-size: 1.875rem; }
+      .hero-action-row { flex-direction: column; align-items: stretch; }
+      .btn-primary-action, .btn-outline-action { width: 100%; justify-content: center; }
+      .sop-node { flex-direction: column; gap: var(--space-3); padding: var(--space-4); }
+      .sop-index { width: 38px; height: 38px; font-size: 1.125rem; }
+      .channel-box { padding: var(--space-6); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Network Notice -->
+  <aside class="network-banner" aria-label="ข้อกำหนดเครือข่าย">
+    <div class="network-banner-inner">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span>โปรดเชื่อมต่อเครือข่ายอินทราเน็ต (LAN / WiFi ภายใน) โรงพยาบาลบุรีรัมย์ เพื่อเข้าสู่ระบบ</span>
+    </div>
+  </aside>
+
+  <!-- Navigation -->
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a href="#hero" class="brand-group" aria-label="หน้าแรก ระบบขอรายงาน โรงพยาบาลบุรีรัมย์">
+        <div class="brand-crest" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+            <line x1="10" y1="9" x2="8" y2="9"/>
+          </svg>
+        </div>
+        <div class="brand-meta">
+          <h1>ระบบขอรายงาน</h1>
+          <p>ศูนย์คอมพิวเตอร์ โรงพยาบาลบุรีรัมย์</p>
+        </div>
+      </a>
+
+      <nav aria-label="เมนูหลัก">
+        <ul class="nav-menu">
+          <li><a href="#channels">ช่องทางเข้าใช้งาน</a></li>
+          <li><a href="#login-protocol">วิธีเข้าสู่ระบบ</a></li>
+          <li><a href="#sop-steps">ขั้นตอนขอข้อมูล</a></li>
+          <li><a href="#chat-showcase">ฟีเจอร์แชท</a></li>
+          <li><a href="#faq">คำถามที่พบบ่อย</a></li>
+        </ul>
+      </nav>
+
+      <a href="http://192.168.95.80:3000/" target="_blank" rel="noopener noreferrer" class="btn-header-access">
+        <span>เข้าสู่ระบบ</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/>
+        </svg>
+      </a>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero Section -->
+    <section class="hero-section" id="hero">
+      <div class="container">
+        <div class="hero-lead-group">
+          <div class="status-indicator-pill">
+            <span class="status-indicator-dot" aria-hidden="true"></span>
+            <span>เปิดให้บริการออนไลน์บนเครือข่ายภายในโรงพยาบาล</span>
+          </div>
+
+          <h2 class="hero-title">ระบบขอข้อมูลและรายงาน<br>โรงพยาบาลบุรีรัมย์</h2>
+          
+          <p class="hero-description">
+            ยื่นคำขอรายงานสถิติและข้อมูลผู้ป่วยแบบออนไลน์ ติดตามสถานะงานและเปอร์เซ็นต์ความคืบหน้าแบบเรียลไทม์ พร้อมรับไฟล์รายงานได้สะดวกรวดเร็ว ผ่านศูนย์คอมพิวเตอร์ โรงพยาบาลบุรีรัมย์
+          </p>
+
+          <div class="hero-action-row">
+            <a href="http://192.168.95.80:3000/" target="_blank" rel="noopener noreferrer" class="btn-primary-action">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+                <polyline points="15 3 21 3 21 9"/>
+                <line x1="10" y1="14" x2="21" y2="3"/>
+              </svg>
+              <span>เข้าสู่ระบบขอรายงาน (ลิงก์ตรง)</span>
+            </a>
+
+            <a href="#channels" class="btn-outline-action">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
+                <line x1="8" y1="21" x2="16" y2="21"/>
+                <line x1="12" y1="17" x2="12" y2="21"/>
+              </svg>
+              <span>ดูช่องทางเข้าใช้งานทั้งหมด</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Structural Pillars -->
+        <div class="hero-pillars-grid">
+          <div class="pillar-card">
+            <div class="pillar-icon-box" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/>
+                <polyline points="22 4 12 14.01 9 11.01"/>
+              </svg>
+            </div>
+            <div class="pillar-text">
+              <h2>ติดตามงานแบบเรียลไทม์</h2>
+              <p>เช็คสถานะและเปอร์เซ็นต์ % ความคืบหน้าการจัดทำรายงานได้ตลอดเวลา</p>
+            </div>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon-box" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+              </svg>
+            </div>
+            <div class="pillar-text">
+              <h2>ล็อกอินด้วยบัญชี PM เดิม</h2>
+              <p>ใช้ Username และ Password ของระบบ PM ได้ทันที ไม่ต้องลงทะเบียนใหม่</p>
+            </div>
+          </div>
+
+          <div class="pillar-card">
+            <div class="pillar-icon-box accent-theme" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div class="pillar-text">
+              <h2>ระบบแชทสื่อสารในตัว</h2>
+              <p>กดปุ่มทักแชทสอบถามรายละเอียดกับเจ้าหน้าที่ไอทีผู้รับผิดชอบงานได้โดยตรง</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Channels -->
+    <section id="channels">
+      <div class="container">
+        <div class="section-intro">
+          <h2 class="section-heading">ช่องทางการเข้าใช้งานระบบ</h2>
+          <p class="section-summary">บุคลากรสามารถเลือกเข้าใช้งานระบบขอรายงานข้อมูลได้ 2 ช่องทางตามความสะดวก</p>
+        </div>
+
+        <div class="channels-grid">
+          <!-- Channel 1: Direct Link -->
+          <div class="channel-box primary-route">
+            <div class="channel-header">
+              <span class="channel-num-chip num-tabular" aria-hidden="true">1</span>
+              <span class="channel-badge-recommended">แนะนำ สะดวกที่สุด</span>
+            </div>
+            <h3 class="channel-title">ช่องทางที่ 1: ลิงก์ตรงของระบบ</h3>
+            <p class="channel-intro-text">
+              เหมาะสำหรับการตั้งเป็น <strong>Bookmark (ที่คั่นหน้า)</strong> บนเบราว์เซอร์ เพื่อกดเข้าสู่หน้าล็อกอินได้โดยตรงโดยไม่ต้องผ่านหน้าอื่น
+            </p>
+
+            <div class="technical-address-bar">
+              <code>http://192.168.95.80:3000/</code>
+              <button class="btn-copy-address" data-copy="http://192.168.95.80:3000/" type="button" aria-label="คัดลอกลิงก์ตรง">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                <span>คัดลอก</span>
+              </button>
+            </div>
+
+            <ul class="checklist-rows">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>เปิดลิงก์เพื่อเข้าสู่หน้าจอเข้าสู่ระบบ</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>กดปุ่ม <kbd>Ctrl + D</kbd> บนคีย์บอร์ดเพื่อบันทึกเป็นที่คั่นหน้า (Bookmark)</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>รองรับ Google Chrome, Microsoft Edge และเบราว์เซอร์มาตรฐาน</span>
+              </li>
+            </ul>
+
+            <div class="channel-box-footer">
+              <a href="http://192.168.95.80:3000/" target="_blank" rel="noopener noreferrer" class="btn-route-action">
+                <span>เปิดลิงก์ตรงทันที</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Channel 2: Via Intranet -->
+          <div class="channel-box">
+            <div class="channel-header">
+              <span class="channel-num-chip num-tabular" aria-hidden="true">2</span>
+            </div>
+            <h3 class="channel-title">ช่องทางที่ 2: ผ่าน Intranet โรงพยาบาล</h3>
+            <p class="channel-intro-text">
+              สำหรับบุคลากรที่เข้าใช้งานผ่านหน้าหลักอินทราเน็ตโรงพยาบาลบุรีรัมย์เดิมเป็นประจำ
+            </p>
+
+            <div class="technical-address-bar">
+              <code>http://192.168.10.10/index.php</code>
+              <button class="btn-copy-address" data-copy="http://192.168.10.10/index.php" type="button" aria-label="คัดลอกลิงก์อินทราเน็ต">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                </svg>
+                <span>คัดลอก</span>
+              </button>
+            </div>
+
+            <!-- Screenshot Trigger -->
+            <div class="screen-inspection-card" onclick="openLightbox('images/step-intranet.png', 'ภาพหน้าจออินทราเน็ตโรงพยาบาลบุรีรัมย์ สังเกตเมนูด้านซ้าย: ขอข้อมูล/รายงาน (ใหม่)')" role="button" tabindex="0" aria-label="คลิกเพื่อดูภาพขยายหน้าจออินทราเน็ต">
+              <img src="images/step-intranet.png" alt="หน้าจออินทราเน็ตโรงพยาบาลบุรีรัมย์" loading="lazy" />
+              <div class="screen-zoom-tag">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/><line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/></svg>
+                <span>คลิกดูภาพขยาย</span>
+              </div>
+            </div>
+
+            <ul class="checklist-rows">
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>เปิดหน้าแรก Intranet โรงพยาบาลบุรีรัมย์</span>
+              </li>
+              <li>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                <span>สังเกตเมนูด้านซ้ายมือ เลือก <strong>"ขอข้อมูล/รายงาน (ใหม่)"</strong></span>
+              </li>
+            </ul>
+
+            <div class="channel-box-footer">
+              <a href="http://192.168.10.10/index.php" target="_blank" rel="noopener noreferrer" class="btn-route-action btn-route-secondary">
+                <span>เปิดหน้า Intranet รพ.</span>
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: Login Protocol -->
+    <section class="login-section-surface" id="login-protocol">
+      <div class="container">
+        <div class="login-split-grid">
+          <div>
+            <h2 class="section-heading">การเข้าสู่ระบบด้วยบัญชีผู้ใช้ระบบ PM</h2>
+            <p class="section-summary">
+              ระบบเชื่อมโยงข้อมูลบุคลากรผ่านฐานข้อมูล PM ของโรงพยาบาลบุรีรัมย์โดยตรง เจ้าหน้าที่ทุกคนสามารถเข้าใช้งานได้ทันทีโดยไม่ต้องลงทะเบียนใหม่
+            </p>
+
+            <div class="login-spec-card">
+              <div class="login-spec-header">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <span>ข้อมูลที่ใช้ในการล็อกอิน</span>
+              </div>
+              <ul class="login-spec-list">
+                <li><strong>ชื่อผู้ใช้ (Username):</strong> กรอก username ของระบบ PM โรงพยาบาล</li>
+                <li><strong>รหัสผ่าน (Password):</strong> กรอกรหัสผ่านเดียวกับที่ใช้เข้าสู่ระบบ PM</li>
+              </ul>
+            </div>
+
+            <p style="font-size: 0.9375rem; color: var(--ink-600); margin-bottom: var(--space-6);">
+              เมื่อเข้าสู่ระบบสำเร็จ ข้อมูลชื่อ-สกุล, ตำแหน่ง, และฝ่าย/กลุ่มงานของท่านจะถูกกรอกลงในแบบฟอร์มคำขอให้อัตโนมัติ
+            </p>
+
+            <a href="http://192.168.95.80:3000/" target="_blank" rel="noopener noreferrer" class="btn-primary-action">
+              <span>ไปยังหน้าเข้าสู่ระบบ</span>
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+          </div>
+
+          <!-- Login Screen Preview -->
+          <div class="login-frame-mockup" onclick="openLightbox('images/step-login.png', 'หน้าจอเข้าสู่ระบบขอรายงาน โรงพยาบาลบุรีรัมย์ — กรอก username และ password ระบบ PM')" role="button" tabindex="0" aria-label="คลิกเพื่อดูภาพขยายหน้าจอเข้าสู่ระบบ">
+            <div class="login-frame-bar" aria-hidden="true">
+              <span class="frame-dot red"></span>
+              <span class="frame-dot yellow"></span>
+              <span class="frame-dot green"></span>
+              <span class="frame-url-label">http://192.168.95.80:3000/login.html</span>
+            </div>
+            <img src="images/step-login.png" alt="หน้าจอเข้าสู่ระบบด้วยรหัส PM โรงพยาบาลบุรีรัมย์" loading="lazy" />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: 6 SOP Steps -->
+    <section id="sop-steps">
+      <div class="container">
+        <div class="section-intro">
+          <h2 class="section-heading">ขั้นตอนมาตรฐานการขอข้อมูลและรายงาน</h2>
+          <p class="section-summary">ข้อปฏิบัติและลำดับขั้นตอนตามระเบียบศูนย์คอมพิวเตอร์ โรงพยาบาลบุรีรัมย์</p>
+        </div>
+
+        <div class="sop-ledger-flow">
+          <!-- Step 1 -->
+          <div class="sop-node">
+            <div class="sop-index">01</div>
+            <div class="sop-content">
+              <div class="sop-header-row">
+                <h3 class="sop-title">เข้าสู่ระบบ (Login)</h3>
+                <span class="sop-pill-label">ขั้นตอนที่ 1</span>
+              </div>
+              <p class="sop-body-text">
+                เข้าสู่ระบบด้วย Username และ Password ของผู้ที่ขอข้อมูลหรือผู้ที่ได้รับมอบหมายจากหน่วยงาน
+              </p>
+              <div class="sop-callout">
+                เข้าใช้งานผ่านลิงก์ตรง <code>http://192.168.95.80:3000/</code> หรือผ่านหน้าแรก Intranet รพ.
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 2 -->
+          <div class="sop-node">
+            <div class="sop-index">02</div>
+            <div class="sop-content">
+              <div class="sop-header-row">
+                <h3 class="sop-title">กรอกแบบฟอร์มคำขอข้อมูล</h3>
+                <span class="sop-pill-label">ขั้นตอนที่ 2</span>
+              </div>
+              <p class="sop-body-text">
+                กดปุ่ม <strong>"+ ขอข้อมูล / รายงานใหม่"</strong> แล้วระบุรายละเอียดที่ต้องการให้ครบถ้วน:
+              </p>
+              <ul style="padding-left: 1.25rem; font-size: 0.9375rem; color: var(--ink-700); margin-bottom: var(--space-3); line-height: 1.6;">
+                <li><strong>ชื่องาน / หัวข้อรายงาน:</strong> ระบุชื่อรายงานที่ชัดเจน (เช่น <em>"ยอดผู้ป่วยคลินิกเบาหวาน ปีงบประมาณ 2567"</em>)</li>
+                <li><strong>วัตถุประสงค์:</strong> เลือกตามจริง (งาน PCT, ประชุม, งานประจำ, วิจัย/เลื่อนระดับ, หรือหน่วยราชการภายนอก)</li>
+                <li><strong>กำหนดรับข้อมูลและความเร่งด่วน:</strong> ระบุวันที่ต้องการรับ และเลือกความเร่งด่วน (ปกติ 10 วันทำการ หรือ ขอด่วนพร้อมระบุเหตุผล)</li>
+                <li><strong>ช่องทางรับข้อมูล:</strong> ระบุ E-mail หรือช่องทางที่ต้องการรับไฟล์</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- Step 3: Urgent Call Action -->
+          <div class="sop-node urgent-action">
+            <div class="sop-index">03</div>
+            <div class="sop-content">
+              <div class="sop-header-row">
+                <h3 class="sop-title" style="color: var(--danger-base);">โทรแจ้งศูนย์คอมพิวเตอร์ หรือ ส่งหนังสือ</h3>
+                <span class="sop-pill-label">ข้อกำหนดสำคัญ</span>
+              </div>
+              <p class="sop-body-text">
+                เมื่อบันทึกข้อมูลเรียบร้อยแล้ว ให้ <strong>โทรแจ้งศูนย์คอมพิวเตอร์ว่ามีการยื่นขอข้อมูล</strong> หรือ <strong>พิมพ์หน้าขอข้อมูลที่บันทึกแล้ว ส่งเป็นหนังสือราชการ</strong> มายังศูนย์คอมพิวเตอร์ เพื่อให้เจ้าหน้าที่เปิดรับงานและมอบหมายผู้รับผิดชอบดำเนินการ
+              </p>
+              <div class="sop-callout">
+                การโทรแจ้งหรือส่งหนังสือจะช่วยให้เจ้าหน้าที่ตรวจสอบและเริ่มคิวรี่ข้อมูลได้อย่างถูกต้องและรวดเร็ว
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 4 -->
+          <div class="sop-node">
+            <div class="sop-index">04</div>
+            <div class="sop-content">
+              <div class="sop-header-row">
+                <h3 class="sop-title">ติดตามสถานะและความคืบหน้า</h3>
+                <span class="sop-pill-label">ขั้นตอนที่ 4</span>
+              </div>
+              <p class="sop-body-text">
+                บุคลากรสามารถเปิดเข้ามาตรวจสอบสถานะของคำขอในหน้าเว็บได้ตลอดเวลา โดยระบบจะแสดงสถานะและแถบความคืบหน้า:
+              </p>
+              <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-2); font-size: 0.8125rem;">
+                <span style="background: var(--ink-100); padding: 3px var(--space-3); border-radius: 4px; border: 1px solid var(--ink-200); font-weight: 600;">ยังไม่ดำเนินการ</span>
+                <span style="background: var(--primary-subtle); color: var(--primary-dark); padding: 3px var(--space-3); border-radius: 4px; border: 1px solid var(--primary-border); font-weight: 600;">กำลังดำเนินการ (แสดง % คืบหน้า)</span>
+                <span style="background: var(--success-subtle); color: var(--success-base); padding: 3px var(--space-3); border-radius: 4px; border: 1px solid var(--success-border); font-weight: 600;">เสร็จสิ้น</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Step 5 -->
+          <div class="sop-node">
+            <div class="sop-index">05</div>
+            <div class="sop-content">
+              <div class="sop-header-row">
+                <h3 class="sop-title">รับมอบข้อมูลและไฟล์รายงาน</h3>
+                <span class="sop-pill-label">ขั้นตอนที่ 5</span>
+              </div>
+              <p class="sop-body-text">
+                เมื่อคิวรี่ข้อมูลเสร็จสิ้น เจ้าหน้าที่จะจัดส่งไฟล์ข้อมูลตามช่องทางที่ผู้ขอแจ้งไว้ (เช่น E-mail) หรือสามารถติดต่อและรับไฟล์ผ่าน <strong>ระบบแชทในตัว</strong> ของรายการนั้นๆ ได้ทันที
+              </p>
+            </div>
+          </div>
+
+          <!-- Step 6: PDPA Governance -->
+          <div class="sop-node pdpa-governance">
+            <div class="sop-index">06</div>
+            <div class="sop-content">
+              <div class="sop-header-row">
+                <h3 class="sop-title" style="color: var(--accent-base);">มาตรการคุ้มครองข้อมูลส่วนบุคคล (PDPA)</h3>
+                <span class="sop-pill-label">ข้อกำหนดกฎหมาย</span>
+              </div>
+              <p class="sop-body-text">
+                ข้อมูลที่ขอต้องอยู่ภายใต้ <strong>พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล (PDPA)</strong> เพื่อรักษาความลับและสิทธิของผู้ป่วย โดยข้อมูลที่จัดทำ <strong>จะไม่สามารถระบุตัวตนของผู้ป่วยได้</strong> (ไม่มีการเปิดเผยเลขประจำตัวประชาชน หรือชื่อ-สกุล) โดยจะแสดงเป็นข้อมูลสถิติ/ตัวเลขในเชิงภาพรวมเท่านั้น
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Showcase: Contextual Chat -->
+    <section class="showcase-chat-surface" id="chat-showcase">
+      <div class="container">
+        <div class="showcase-grid">
+          <div>
+            <div class="showcase-header">
+              <h2>คุยงานได้เร็วขึ้นด้วย<br>ระบบแชทสื่อสารในตัว</h2>
+            </div>
+
+            <p class="showcase-summary">
+              ลดขั้นตอนการส่งกระดาษหรือโทรประสานงานหลายต่อ ในแต่ละใบคำขอจะมีปุ่ม <strong>"ทักแชทสอบถามรายละเอียด"</strong> ให้ผู้ขอกับช่างศูนย์คอมพิวเตอร์ผู้รับผิดชอบงานคุยกันได้โดยตรงแบบเรียลไทม์
+            </p>
+
+            <ul class="feature-points-list">
+              <li class="feature-point-item">
+                <div class="feature-point-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                </div>
+                <div class="feature-point-text">
+                  <h3>One-Click Chat ตรงจากใบงาน</h3>
+                  <p>กดปุ่มเดียวเปิดห้องแชทคุยเจาะจงเฉพาะเรื่องรายงานนั้นๆ เจ้าหน้าที่ทราบทันทีว่าเป็นงานชิ้นใด</p>
+                </div>
+              </li>
+
+              <li class="feature-point-item">
+                <div class="feature-point-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+                </div>
+                <div class="feature-point-text">
+                  <h3>แนบไฟล์ตัวอย่างและภาพหน้าจอ</h3>
+                  <p>ส่งไฟล์ Excel ฟอร์มตัวอย่าง หรือภาพหน้าจอประกอบเงื่อนไขข้อมูลได้สะดวกรวดเร็ว</p>
+                </div>
+              </li>
+
+              <li class="feature-point-item">
+                <div class="feature-point-icon" aria-hidden="true">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
+                </div>
+                <div class="feature-point-text">
+                  <h3>ส่งข้อความเสียง (Voice Note)</h3>
+                  <p>กรณีมีเงื่อนไขซับซ้อน สามารถกดอัดเสียงอธิบายความต้องการเพิ่มเติมได้ทันที</p>
+                </div>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Mock Chat Terminal -->
+          <div class="chat-terminal-card" aria-label="ตัวอย่างการสนทนาในระบบแชท">
+            <div class="chat-terminal-header">
+              <div class="chat-terminal-identity">
+                <div class="terminal-avatar">IT</div>
+                <div class="terminal-identity-meta">
+                  <h4>เจ้าหน้าที่ศูนย์คอมพิวเตอร์</h4>
+                  <span class="terminal-status-online">พร้อมตอบข้อซักถาม</span>
+                </div>
+              </div>
+              <span class="terminal-ticket-badge">#REP-0024</span>
+            </div>
+
+            <div class="terminal-dialog-flow">
+              <div class="dialog-bubble incoming">
+                สวัสดีครับ รายงานผู้ป่วยนอกคลินิกเบาหวาน ต้องการให้นับเฉพาะผู้ป่วยที่มีผลตรวจ HbA1c ด้วยไหมครับ?
+                <span class="bubble-timestamp">09:15 น.</span>
+              </div>
+
+              <div class="dialog-bubble outgoing">
+                ใช่ค่ะ รบกวนขอคอลัมน์ผลตรวจ HbA1c ล่าสุดย้อนหลัง 3 เดือนด้วยนะคะ ขอบคุณค่ะ
+                <span class="bubble-timestamp">09:17 น.</span>
+              </div>
+
+              <div class="dialog-bubble incoming">
+                รับทราบครับ กำลังเพิ่มเงื่อนไข SQL ให้ครับ ตอนนี้ดำเนินการไปแล้ว 80% เดี๋ยวเสร็จแล้วแนบไฟล์ Excel ส่งให้ในห้องแชทนี้ครับ
+                <div class="bubble-attachment-card">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg>
+                  <span>report_dm_hba1c_draft.xlsx (เตรียมไฟล์)</span>
+                </div>
+                <span class="bubble-timestamp">09:20 น.</span>
+              </div>
+            </div>
+
+            <div class="terminal-composer-bar" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/></svg>
+              <span style="flex-grow: 1;">พิมพ์ข้อความหรือกดไมค์ส่งเสียง...</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Section: FAQ -->
+    <section id="faq">
+      <div class="container">
+        <div class="section-intro">
+          <h2 class="section-heading">คำถามที่พบบ่อย</h2>
+          <p class="section-summary">ข้อสงสัยยอดนิยมเกี่ยวกับการใช้งานระบบขอข้อมูลและรายงาน</p>
+        </div>
+
+        <div class="faq-wrapper" role="region" aria-label="คำถามที่พบบ่อย">
+          <!-- FAQ 1 -->
+          <div class="faq-disclosure-item" aria-expanded="false">
+            <button class="faq-trigger-btn" type="button" aria-controls="faq-ans-1" id="faq-btn-1">
+              <span>1. เข้าใช้งานระบบจากที่บ้านหรือเครือข่ายภายนอกได้หรือไม่?</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-ans-1" role="region" aria-labelledby="faq-btn-1">
+              <div class="faq-panel-inner">
+                <div class="faq-panel-content">
+                  ระบบขอรายงานทำงานอยู่บนเครือข่ายภายใน (Intranet / LAN) ของโรงพยาบาลบุรีรัมย์ ดังนั้นอุปกรณ์ที่เข้าใช้งานจะต้องเชื่อมต่อสาย LAN ของโรงพยาบาล หรือเชื่อมต่อสัญญาณ WiFi ภายในโรงพยาบาลบุรีรัมย์เท่านั้น
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 2 -->
+          <div class="faq-disclosure-item" aria-expanded="false">
+            <button class="faq-trigger-btn" type="button" aria-controls="faq-ans-2" id="faq-btn-2">
+              <span>2. หากต้องการขอข้อมูลด่วน ต้องทำอย่างไร?</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-ans-2" role="region" aria-labelledby="faq-btn-2">
+              <div class="faq-panel-inner">
+                <div class="faq-panel-content">
+                  ตามเกณฑ์ปกติ การจัดทำรายงานข้อมูลจะดำเนินการภายใน 10 วันทำการ แต่หากมีความจำเป็นเร่งด่วน ในแบบฟอร์มจะมีตัวเลือก <strong>"ด่วน"</strong> ให้ติ๊กเลือก และโปรดระบุเหตุผลความจำเป็น พร้อมทั้งโทรแจ้งศูนย์คอมพิวเตอร์โดยตรง เพื่อให้หัวหน้าศูนย์พิจารณาอนุมัติเป็นกรณีพิเศษ
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 3 -->
+          <div class="faq-disclosure-item" aria-expanded="false">
+            <button class="faq-trigger-btn" type="button" aria-controls="faq-ans-3" id="faq-btn-3">
+              <span>3. เข้าสู่ระบบด้วยรหัส PM ไม่ได้ เกิดจากสาเหตุใด?</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-ans-3" role="region" aria-labelledby="faq-btn-3">
+              <div class="faq-panel-inner">
+                <div class="faq-panel-content">
+                  เบื้องต้นให้ตรวจสอบว่าแป้นพิมพ์เปิดปุ่ม Caps Lock ไว้หรือไม่ หรือภาษาของแป้นพิมพ์เป็นภาษาอังกฤษถูกต้องหรือไม่ หากยังไม่สามารถเข้าสู่ระบบได้ หรือลืมรหัสผ่าน PM สามารถติดต่อศูนย์คอมพิวเตอร์เพื่อขอตรวจสอบสถานะบัญชีหรือรีเซ็ตรหัสผ่านได้
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 4 -->
+          <div class="faq-disclosure-item" aria-expanded="false">
+            <button class="faq-trigger-btn" type="button" aria-controls="faq-ans-4" id="faq-btn-4">
+              <span>4. รายงานที่ขอจะได้รับผ่านช่องทางใดบ้าง?</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-ans-4" role="region" aria-labelledby="faq-btn-4">
+              <div class="faq-panel-inner">
+                <div class="faq-panel-content">
+                  เจ้าหน้าที่จะจัดส่งไฟล์รายงาน (Excel / CSV) ผ่าน <strong>E-mail</strong> ที่ท่านระบุไว้ในแบบฟอร์ม หรือส่งมอบไฟล์ผ่าน <strong>ระบบแชทในตัว</strong> ของรายการคำขอนั้น ซึ่งท่านสามารถกดดาวน์โหลดไฟล์มาเปิดดูบนเครื่องคอมพิวเตอร์ได้ทันที
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- FAQ 5 -->
+          <div class="faq-disclosure-item" aria-expanded="false">
+            <button class="faq-trigger-btn" type="button" aria-controls="faq-ans-5" id="faq-btn-5">
+              <span>5. ทำไมข้อมูลที่ได้รับจึงไม่มีชื่อ-สกุล หรือเลขประจำตัวประชาชนของผู้ป่วย?</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <div class="faq-panel" id="faq-ans-5" role="region" aria-labelledby="faq-btn-5">
+              <div class="faq-panel-inner">
+                <div class="faq-panel-content">
+                  เป็นไปตามระเบียบของ พ.ร.บ. คุ้มครองข้อมูลส่วนบุคคล (PDPA) โรงพยาบาลมีหน้าที่ต้องปกป้องข้อมูลสุขภาพของผู้รับบริการ รายงานข้อมูลสถิติต่างๆ จึงถูกจัดทำขึ้นในลักษณะ <strong>สรุปตัวเลขเชิงภาพรวม</strong> ที่ไม่สามารถนำไปสืบค้นย้อนกลับเพื่อระบุตัวตนของผู้ป่วยได้
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Colophon / Footer -->
+  <footer class="site-colophon">
+    <div class="container">
+      <div class="colophon-grid">
+        <div class="colophon-identity">
+          <h3>ระบบขอข้อมูลและรายงาน — โรงพยาบาลบุรีรัมย์</h3>
+          <p>
+            พัฒนาและดูแลระบบโดย ศูนย์คอมพิวเตอร์ โรงพยาบาลบุรีรัมย์ เพื่ออำนวยความสะดวกให้แก่บุคลากรทางการแพทย์และเจ้าหน้าที่ทุกหน่วยงานในการขอข้อมูลอย่างมีประสิทธิภาพ ถูกต้อง และปลอดภัย
+          </p>
+        </div>
+
+        <div class="colophon-nav-group">
+          <h4>ลิงก์ระบบ</h4>
+          <ul class="colophon-nav-links">
+            <li><a href="http://192.168.95.80:3000/" target="_blank" rel="noopener noreferrer">เข้าสู่ระบบ (ลิงก์ตรง)</a></li>
+            <li><a href="http://192.168.10.10/index.php" target="_blank" rel="noopener noreferrer">หน้าแรก Intranet รพ.</a></li>
+            <li><a href="#sop-steps">ขั้นตอนการขอข้อมูล</a></li>
+            <li><a href="#chat-showcase">ฟีเจอร์ระบบแชท</a></li>
+          </ul>
+        </div>
+
+        <div class="colophon-nav-group">
+          <h4>ติดต่อศูนย์คอมพิวเตอร์</h4>
+          <p style="font-size: 0.875rem; line-height: 1.6;">
+            โรงพยาบาลบุรีรัมย์<br>
+            โทรศัพท์ภายใน: <strong>ศูนย์คอมพิวเตอร์</strong><br>
+            เวลาทำการ: วันจันทร์ - ศุกร์ (เวลาราชการ)
+          </p>
+        </div>
+      </div>
+
+      <div class="colophon-copyright">
+        &copy; 2026 ศูนย์คอมพิวเตอร์ โรงพยาบาลบุรีรัมย์ — ขอสงวนสิทธิ์ทั้งหมด
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lightbox Dialog -->
+  <div class="dialog-lightbox" id="dialog-lightbox" role="dialog" aria-modal="true" aria-label="หน้าต่างแสดงภาพขยาย" onclick="closeLightbox(event)">
+    <div class="lightbox-enclosure" onclick="event.stopPropagation()">
+      <button class="btn-dismiss-lightbox" onclick="closeLightbox()" type="button" aria-label="ปิดหน้าต่างภาพขยาย">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+      <img id="lightbox-display-img" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="ภาพขยายหน้าจอ" />
+      <div class="lightbox-caption-text" id="lightbox-caption-text"></div>
+    </div>
+  </div>
+
+  <!-- Toast Notification Host -->
+  <div class="toast-feedback-host" id="toast-feedback-host" aria-live="polite"></div>
+
+  <!-- Script Logic -->
+  <script>
+    // Copy technical address
+    document.querySelectorAll('.btn-copy-address').forEach(button => {
+      button.addEventListener('click', () => {
+        const address = button.getAttribute('data-copy');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(address).then(() => {
+            notifyToast('คัดลอกลิงก์สำเร็จ: ' + address);
+          }).catch(() => fallbackCopy(address));
+        } else {
+          fallbackCopy(address);
+        }
+      });
+    });
+
+    function fallbackCopy(text) {
+      const field = document.createElement('textarea');
+      field.value = text;
+      field.setAttribute('readonly', '');
+      field.style.position = 'absolute';
+      field.style.left = '-9999px';
+      document.body.appendChild(field);
+      field.select();
+      document.execCommand('copy');
+      document.body.removeChild(field);
+      notifyToast('คัดลอกลิงก์สำเร็จ: ' + text);
+    }
+
+    // Accessible Toast Notification
+    function notifyToast(text) {
+      const host = document.getElementById('toast-feedback-host');
+      const item = document.createElement('div');
+      item.className = 'toast-pill';
+      item.innerHTML = `
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="2.5" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <span>${text}</span>
+      `;
+      host.appendChild(item);
+      setTimeout(() => {
+        item.style.opacity = '0';
+        item.style.transition = 'opacity 0.25s ease';
+        setTimeout(() => item.remove(), 260);
+      }, 3000);
+    }
+
+    // Accessible Accordion (Grid-template-rows based)
+    document.querySelectorAll('.faq-trigger-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const item = btn.closest('.faq-disclosure-item');
+        const isExpanded = item.getAttribute('aria-expanded') === 'true';
+
+        // Close other items
+        document.querySelectorAll('.faq-disclosure-item').forEach(other => {
+          if (other !== item) {
+            other.setAttribute('aria-expanded', 'false');
+          }
+        });
+
+        item.setAttribute('aria-expanded', isExpanded ? 'false' : 'true');
+      });
+    });
+
+    // Lightbox modal logic
+    const dialog = document.getElementById('dialog-lightbox');
+    const displayImg = document.getElementById('lightbox-display-img');
+    const captionEl = document.getElementById('lightbox-caption-text');
+
+    function openLightbox(source, caption) {
+      displayImg.src = source;
+      captionEl.textContent = caption || '';
+      dialog.classList.add('is-open');
+      document.body.style.overflow = 'hidden';
+    }
+
+    function closeLightbox() {
+      dialog.classList.remove('is-open');
+      document.body.style.overflow = '';
+      setTimeout(() => {
+        displayImg.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E";
+      }, 200);
+    }
+
+    window.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && dialog.classList.contains('is-open')) {
+        closeLightbox();
+      }
+    });
+  </script>
+</body>
+</html>
